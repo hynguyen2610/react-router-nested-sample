@@ -89,7 +89,7 @@ function Home() {
  * It receive a prop variable {match}, then find in the topicsList collection to get the topic that have the id that equal
  * match.params.subId
  * It has a link ref to current topic.url
- * @param {match} match json pair info which contains a "URL" and a "params" collection.  
+ * @param {match} match json pair info which contains a "URL" and a "params" collection.
  */
 function Resource ( {match} ) {
 	const topic = topicsList.find(({ id }) => id === match.params.topicId).resources.find(({ id }) => id === match.params.subId);
@@ -103,6 +103,14 @@ function Resource ( {match} ) {
 	)
 }
 
+/**
+ * Define a component to render a Topic (detail)
+ * When initialized, it try to find tohe topic from topicsList,
+ * then render the topic with it's resource as an UL.
+ * The UL is a list of many LI.
+ * Each LI renders a resource that is member of that topic
+ * @param {match} match 
+ */
 function Topic ( {match} ) {
 	const topic = topicsList.find(({ id }) => id === match.params.topicId);
 	
@@ -126,21 +134,26 @@ function Topic ( {match} ) {
   )
 }
 
+/**
+ * After a struggling time to find out why the code didn't run,
+ * I realized that: To read propName, you need to use ` instead of '.
+ * @param {match} param0 
+ */
 function Topics ( {match} ) {
 	return (
 		<div>
 			<h1>Topics</h1>
 			<ul>
 				{topicsList.map(({ name, id }) => (
-					<li key={id}>
-						<Link to={'${match.url}/${id}'}>{name}</Link>
+					<li key={ id}>
+						<Link to={`${match.url}/${id}`}>{name}</Link>
 					</li>
 				))}
 			</ul>
 
 			<hr />
 
-			<Route path={'${match.path}/topics/:topicId'} component={Topic} />
+			<Route path={`${match.path}/:topicId`} component={Topic} />
 		</div>
 	)
 }
